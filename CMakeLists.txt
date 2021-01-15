@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
 project(envoy)
 
+set(CMAKE_CXX_STANDARD 17)
+
 execute_process(
     COMMAND
     bazel run //:cmake_gen
