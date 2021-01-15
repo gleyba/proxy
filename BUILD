@@ -15,6 +15,8 @@
 ################################################################################
 #
 
+load("@build_flare_bazel_cmake//rules:cmake.bzl", "cmake_gen")
+
 exports_files(["LICENSE"])
 
 config_setting(
@@ -31,4 +33,9 @@ genrule(
     outs = ["deb_version.txt"],
     cmd = "echo $${ISTIO_VERSION:-\"0.3.0-dev\"} > \"$@\"",
     visibility = ["//visibility:public"],
+)
+
+cmake_gen(
+    name = "cmake_gen",
+    config = "cmake_gen",
 )

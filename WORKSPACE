@@ -137,3 +137,40 @@ container_pull(
 load("//bazel:wasm.bzl", "wasm_dependencies")
 
 wasm_dependencies()
+
+############# Cmake generation
+
+# rules rules used in generation
+http_archive(
+    name = "io_bazel_rules_rust",
+    strip_prefix = "rules_rust-fdf9655ba95616e0314b4e0ebab40bb0c5fe005c",
+    urls = [
+        "https://github.com/bazelbuild/rules_rust/archive/fdf9655ba95616e0314b4e0ebab40bb0c5fe005c.zip",
+    ],
+)
+
+load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
+rust_repositories()
+
+# Set up blackjack (rust cargo dependencies to bazel transform)
+http_archive(
+    name = "blackjack",
+    url = "https://github.com/wildarch/blackjack/archive/f9d49ea9f93aabcea0fa9d8e90cb854c7a1de9ce.zip",
+    sha256 = "496410e369ee6a986f223071d47c5f69302abaf41840a5f3451000ee5f4739bd",
+    strip_prefix = "blackjack-f9d49ea9f93aabcea0fa9d8e90cb854c7a1de9ce",
+)
+load("@blackjack//:workspace.bzl", "blackjack_cargo")
+blackjack_cargo()
+
+# cmake gen
+http_archive(
+ name = "build_flare_bazel_cmake",
+ url = "https://github.com/flarebuild/bazel_cmake/archive/81c0f2eb9cbf34a991ab30d5a7a94f8c82142ae4.zip",
+ sha256 = "61916f5fdb75f761fb4741472ea38a3a9ab4f2cd68e59836c47e84b93c71b01a",
+ strip_prefix = "bazel_cmake-81c0f2eb9cbf34a991ab30d5a7a94f8c82142ae4",
+)
+
+# cmake gen cargo
+load("@build_flare_bazel_cmake//tools:tools_deps.bzl", "tools_deps")
+tools_deps()
+

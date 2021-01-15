@@ -40,6 +40,11 @@ build:release-symbol -c opt
 # Debug builds
 build:debug -c dbg
 
+# Disable sandbox and strip for cmake generation
+build:cmake_gen --config=debug
+build:cmake_gen --spawn_strategy=local
+build:cmake_gen --strip=never
+
 # Add compile option for all C++ files
 build --cxxopt -Wnon-virtual-dtor
 build --cxxopt -Wformat
